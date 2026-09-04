@@ -2,16 +2,17 @@
 
 ## Overview
 
-This repository contains the numerical datasets, C source code, Gnuplot
-scripts, and base PDF figures used for Figures 2-6 of the manuscript:
+This repository contains the numerical datasets and source code used in the paper:
 
-**"Relaxation of sliding friction from a statistical model of aging contacts"**
+**“Relaxation of sliding friction from a statistical model of aging contacts”**
 
 **Data and code prepared by:**  
 Ryudo Suzuki  
 Email: suzuki.ryudo.55e@st.kyoto-u.ac.jp
 
-## Repository structure
+---
+
+## Repository Structure
 
 ```text
 .
@@ -44,51 +45,76 @@ Email: suzuki.ryudo.55e@st.kyoto-u.ac.jp
     `-- fig6/
 ```
 
-Each `data/` directory contains plain-text numerical data. Comment lines at
-the beginning of each file record the parameters and column definitions. Each
-`fig/` directory contains the corresponding PDF base plot. The final figures
-in the manuscript may include additional layout adjustments.
+---
 
-## Contents
+## Description of Contents
 
-| Figure | Numerical content | Source code |
-| --- | --- | --- |
-| Fig. 2 | Finite-N and analytical friction relaxation after a velocity step | `finite_n_relaxation.c`, `analytic_relaxation.c` |
-| Fig. 3 | Contact-time distributions at selected times | `contact_time_distribution.c` |
-| Fig. 4 | Relaxation functions for several exponents and upper cutoffs | `relaxation_curve.c` |
-| Fig. 5 | Steady-state friction as a function of velocity | `steady_state_friction.c` |
-| Fig. 6 | Alpha dependence of relaxation and characteristic slip | `relaxation_alpha_scan.c`, `characteristic_slip.c` |
+### figures/
 
-## Requirements
+Each directory (`fig2`--`fig6`) contains:
 
-- A C11 compiler, such as GCC or Clang
-- Gnuplot with the `pdfcairo` terminal
+- **data/**  
+  Numerical data used to generate the corresponding figure.
 
-The plotting scripts request Times New Roman. Gnuplot may substitute another
-font if it is unavailable.
+- **fig/**  
+  Base PDF plots generated from the numerical data.
 
-## Reproducing the plots
+- **load.plt**  
+  Gnuplot script used to reproduce the base plots.
 
-The numerical data are included. Run each plotting script from its figure
-directory, for example:
+The final figures in the manuscript may include additional layout adjustments
+to these base plots.
+
+### src/
+
+Contains the C source code used to generate the numerical data for each figure.
+
+- **fig2/**  
+  Finite-N simulations and analytical calculation of friction relaxation
+  after a velocity step.
+
+- **fig3/**  
+  Calculation of contact-time distributions at selected times.
+
+- **fig4/**  
+  Calculation of relaxation functions for different power-law exponents and
+  upper cutoffs.
+
+- **fig5/**  
+  Calculation of the steady-state friction as a function of sliding velocity.
+
+- **fig6/**  
+  Calculation of the dependence of relaxation and characteristic slip distance
+  on the power-law exponent.
+
+---
+
+## Reproducing the Plots
+
+The numerical data required for the figures are included in the repository.
+
+For example, Fig. 2 can be reproduced by running
 
 ```sh
 cd figures/fig2
 gnuplot load.plt
 ```
 
-The resulting PDF is written to the local `fig/` directory. Repeat the same
-command in `fig3`, `fig4`, `fig5`, and `fig6` to reproduce the other plots.
+The resulting PDF is written to the corresponding `fig/` directory.
+The same procedure can be used for Figs. 3--6.
 
-## Regenerating the numerical data
+---
 
-Each C file begins with its build command, run command, output location, and a
-short description of the calculation. Build programs from the repository root
-and run them with the figure directory as the working directory.
+## Regenerating the Numerical Data
 
-For Figure 4, `relaxation_curve.c` generates one parameter combination per
-run. Set `PARAM_ALPHA` and `PARAM_LMAX` to the combinations referenced by
-`figures/fig4/load.plt` to regenerate the complete dataset.
+The C source files in `src/` generate the numerical datasets contained in the
+corresponding `figures/fig*/data/` directories.
 
-The finite-N calculation for Figure 2 may require substantial computation
-time. It uses a fixed random seed for reproducibility.
+Each source file includes information on how to compile and run the program.
+
+A C11 compiler such as GCC or Clang is required.
+Gnuplot with the `pdfcairo` terminal is used to generate the plots.
+
+The finite-N simulation for Fig. 2 may require relatively long computation
+time. A fixed random seed is used for reproducibility.
+
